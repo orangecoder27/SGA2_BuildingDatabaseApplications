@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modify Books</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: orangered;
+            color: black;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            color: black;
+            text-align: center;
+        }
+        h2 {
+            color: #333;
+            border-bottom: 2px solid black;
+            padding-bottom: 5px;
+        }
+        label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+        input[type="text"], input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            background-color: orange;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: orange;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        .section {
+            margin-bottom: 20px;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        .add-book {
+            background-color: lightcoral;
+        }
+        .update-book {
+            background-color: lightgreen;
+        }
+        .delete-book {
+            background-color: lightseagreen;
+        }
+        .homebutton{
+            display:block;
+            max-width: 600px;
+            margin: 10px auto;
+            
+        }
+        a{
+            color:white;
+            text-decoration: none;
+        }
+        
+    </style>
+    <script>
+
+        async function addBook() {
+            const title = document.getElementById('add-title').value;
+            const isbn = document.getElementById('add-isbn').value;
+            const authorId = document.getElementById('add-authorId').value;
+            const pubyear = parseInt(document.getElementById('add-pubyear').value);
+            const copies = parseInt(document.getElementById('add-copies').value);
+
+            const book = {
+                title: title,
+                isbn: isbn,
+                authorId: authorId,
+                pubyear: pubyear,
+                copies: copies
+            };
+
+            const response = await fetch('http://localhost:8000/api/books', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(book)
+            });
+
+            const newBook = await response.json();
+            console.log(newBook);
+            alert("Added Book");
+        }
+
+        async function updateBook() {
+            const id = document.getElementById('update-id').value;
+            const title = document.getElementById('update-title').value;
+            const authorId = document.getElementById('update-authorId').value;
+            const pubyear = parseInt(document.getElementById('update-pubyear').value);
+            const copies = parseInt(document.getElementById('update-copies').value);
+
+            const book = {
+                title: title,
+                authorId: authorId,
+                pubyear: pubyear,
+                copies: copies
+            };
+
+            const response = await fetch(`http://localhost:8000/api/books/${id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(book)
+            });
+
+            const updatedBook = await response.json();
+            console.log(updatedBook);
+            alert("Book Updated");
+        }
+
+async function deleteBook() {
+            const id = document.getElementById('delete-id').value;
+
+            await fetch(`http://localhost:8000/api/books/${id}`, {
+                method: 'DELETE'
+            });
+
+            console.log(`Book with id ${id} deleted`);
+            alert("Book deleted");
+        }
+
+
+    </script>
+</head>
+<body>
+<div class="container">
+    <h1>Change Book Table</h1>
+    <button class="homebutton"><a href="/">Return Home</a></button>
+
+    <div class="section add-book">
+        <h2>Add Book</h2>
+        <label>Title: <input type="text" id="add-title"></label>
+        <label>ISBN: <input type="text" id="add-isbn"></label>
+        <label>Author ID: <input type="text" id="add-authorId"></label>
+        <label>Publication Year: <input type="number" id="add-pubyear"></label>
+        <label>Copies: <input type="number" id="add-copies"></label>
+        <button onclick="addBook()">Add Book</button>
+    </div>
+    
+    <div class="section update-book">
+        <h2>Update Book</h2>
+        <label>ID: <input type="number" id="update-id"></label>
+        <label>Title: <input type="text" id="update-title"></label>
+        <label>Author ID: <input type="text" id="update-authorId"></label>
+        <label>Publication Year: <input type="number" id="update-pubyear"></label>
+        <label>Copies: <input type="number" id="update-copies"></label>
+        <button onclick="updateBook()">Update Book</button>
+    </div>
+    <div class="section delete-book">
+        <h2>Delete Book</h2>
+        <label>ID: <input type="number" id="delete-id"></label>
+        <button onclick="deleteBook()">Delete Book</button>
+    </div>
+    
+    
+</div>
+</body>
+</html>

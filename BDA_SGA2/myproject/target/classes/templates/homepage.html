@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library API</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: orangered;
+            color: black;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            color: black;
+            text-align: center;
+        }
+        
+        button {
+            background-color: orange;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            display:block;
+            max-width: 600px;
+            margin: 10px auto;
+            border: 2px solid black;      
+            font-size: 24px; 
+        }
+        button:hover {
+            background-color: orange;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        
+        p{
+            max-width: 600px;
+            margin: 10px auto;
+            text-align: center;
+        }
+        a{
+            color:black;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Welcome to the Library!</h1>
+    <br>
+    <p>Welcome to the library. You can view available books, authors or both. In case you
+        would like to modify either table, you may do so as well.
+    </p>
+    <br>
+    <button><a href=showbooks>Get Books</a></button>
+    <button><a href="modifybooks">Modify Books</a></button>
+    <button><a href=showauthors>Get Authors</a></button>
+    <button><a href=modifyauthors>Modify Authors</a></button>
+    <button><a href=showbooksandauthors>Get Books and Authors</a></button>
+</div>
+</body>
+</html>

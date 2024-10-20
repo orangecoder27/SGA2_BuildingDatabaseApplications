@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modify Authors</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: orangered;
+            color: black;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            color: black;
+            text-align: center;
+        }
+        h2 {
+            color: #333;
+            border-bottom: 2px solid black;
+            padding-bottom: 5px;
+        }
+        label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+        input[type="text"], input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            background-color: orange;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: orange;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        .section {
+            margin-bottom: 20px;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        .add-author {
+            background-color: lightcoral;
+        }
+        .update-author {
+            background-color: lightgreen;
+        }
+        .delete-author {
+            background-color: lightseagreen;
+        }
+        .homebutton{
+            display:block;
+            max-width: 600px;
+            margin: 10px auto;
+            
+        }
+        a{
+            color:white;
+            text-decoration: none;
+        }
+    </style>
+    <script>
+        async function addAuthor() {
+            const name = document.getElementById('add-name').value;
+            const country = document.getElementById('add-country').value;
+            const publisher = document.getElementById('add-publisher').value;
+            
+
+            const author = {
+                name: name,
+                country: country,
+                publisher: publisher
+            };
+
+            const response = await fetch('http://localhost:8000/api/authors', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(author)
+            });
+
+            const newAuthor = await response.json();
+            console.log(newAuthor);
+            alert("Author added");
+        }
+
+        async function updateAuthor() {
+            const authId = document.getElementById('update-authId').value;
+            const name = document.getElementById('update-name').value;
+            const country = document.getElementById('update-country').value;
+            const publisher = document.getElementById('update-publisher').value;
+            
+
+            const author = {
+                name: name,
+                country: country,
+                publisher: publisher
+            };
+
+            const response = await fetch(`http://localhost:8000/api/authors/${authId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(author)
+            });
+
+            const updatedAuthor = await response.json();
+            console.log(updatedAuthor);
+            alert("Author Updated");
+        }
+
+async function deleteAuthor() {
+            const authId = document.getElementById('delete-authId').value;
+
+            await fetch(`http://localhost:8000/api/authors/${authId}`, {
+                method: 'DELETE'
+            });
+
+            console.log(`Author with authId ${authId} deleted`);
+            alert("Author Deleted");
+        }
+
+
+    </script>
+</head>
+<body>
+<div class="container">
+    <h1>Change Author Table</h1>
+    <button class="homebutton"><a href="/">Return Home</a></button>
+
+    <div class="section add-author">
+        <h2>Add Author</h2>
+        <label>Name: <input type="text" id="add-name"></label>
+        <label>Country: <input type="text" id="add-country"></label>
+        <label>Publisher: <input type="text" id="add-publisher"></label>
+        <button onclick="addAuthor()">Add Author</button>
+    </div>
+
+    <div class="section update-author">
+        <h2>Update Author</h2>
+        <label>Author ID: <input type="number" id="update-authId"></label>
+        <label>Name: <input type="text" id="update-name"></label>
+        <label>Country: <input type="text" id="update-country"></label>
+        <label>Publisher: <input type="text" id="update-publisher"></label>
+        <button onclick="updateAuthor()">Update Author</button>
+    </div>
+    <div class="section delete-author">
+        <h2>Delete Author</h2>
+        <label>Author ID: <input type="number" id="delete-authId"></label>
+        <button onclick="deleteAuthor()">Delete Author</button>
+    </div>
+</div>
+</body>
+</html>

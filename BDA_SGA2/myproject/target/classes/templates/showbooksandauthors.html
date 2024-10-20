@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Show Books and Authors</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+    async function getBooksAndAuthors() {
+        const response = await fetch('http://localhost:8000/api/books');
+        const books = await response.json();
+        console.log(books);
+        const response2 = await fetch('http://localhost:8000/api/authors');
+        const authors = await response2.json();
+        console.log(authors);
+        for(let i=0; i<books.length; i++){
+            for(let j=0; j<authors.length; j++){
+                if(books[i].authorId===authors[j].authId){
+            var ele=`<tr>
+                <td>${books[i].id}</td>
+                <td>${books[i].title}</td>
+                <td>${books[i].isbn}</td>
+                <td>${books[i].pubyear}</td>
+                <td>${books[i].copies}</td>
+                <td>${authors[j].authId}</td>
+                <td>${authors[j].name}</td>
+                <td>${authors[j].country}</td>
+                <td>${authors[j].publisher}</td>
+                </tr>`;
+            document.getElementById("tbody").innerHTML+=ele;
+                }
+            }
+        }
+    }
+</script>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: orangered;
+        color: black;
+        margin: 0;
+        padding: 20px;
+    }
+    h1 {
+        color: black;
+        text-align: center;
+    }
+    button {
+        background-color: orange;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        display:block;
+        max-width: 600px;
+        margin: 10px auto;
+        border: none;      
+        font-size: 24px;  
+    }
+    button:hover {
+        background-color: orange;
+    }
+    .container {
+        max-width: 800px;
+        margin: 0 auto;
+        background-color: #fff;
+        padding: 20px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+    }
+    a{
+        color:white;
+        text-decoration: none;
+    }
+    table{
+        max-width: 600px;
+        margin: 10px auto;
+        border: 2px solid black;
+        background-color: lightpink;
+    }
+    td{
+        border:1px solid black;
+        text-align: center;
+        padding:10px;
+    }
+    .homebutton{
+            display:block;
+            max-width: 600px;
+            margin: 10px auto;
+            
+        }
+</style>
+</head>
+<body>
+    <div class="container">
+    <h1>Show Books and Authors</h1>
+    <button class="homebutton"><a href="/">Return Home</a></button>
+    <table>
+        <tr>
+            <td>Book ID</td>
+            <td>Title</td>
+            <td>ISBN</td>
+            <td>Publishing Year</td>
+            <td>Number of Copies</td>
+            <td>Author ID</td>
+            <td>Author Name</td>
+            <td>Author Country</td>
+            <td>Publisher</td>
+        </tr>
+        <tbody id="tbody">
+
+        </tbody>
+    </table>
+    <button onclick="getBooksAndAuthors()">Get Books and Authors</button>
+    </div>
+</body>
+</html>
